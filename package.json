@@ -6,7 +6,7 @@
     "name": "Shodipo Ayomide"
   },
   "version": "0.0.6",
-  "icon": "./src/assets/logo.png",
+  "icon": "./assets/logo.png",
   "publisher": "developerayo",
   "maintainers": [
     "Shodipo Ayomide <shodipovi@gmail.com>"
