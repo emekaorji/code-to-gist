@@ -2,23 +2,20 @@ import * as vscode from "vscode";
 import axios from "axios";
 import * as fs from "fs";
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     "code-to-gist.createGist",
     async () => {
-      const token = await vscode.window.showInputBox({
-        placeHolder: "Enter your GitHub PAT",
-        password: true,
-        prompt:
-          "Your GitHub Personal Access Token is required to create a Gist",
-      });
-
-      if (!token) {
-        vscode.window.showErrorMessage(
-          "GitHub Personal Access Token is required"
-        );
+      const session = await vscode.authentication.getSession(
+        "github",
+        ["gist"],
+        { createIfNone: true }
+      );
+      if (!session) {
+        vscode.window.showErrorMessage("GitHub authentication failed");
         return;
       }
+      const token = session.accessToken;
 
       const filesToUpload = await vscode.window.showOpenDialog({
         canSelectMany: true,
@@ -30,9 +27,12 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      const gistVisibility = await vscode.window.showQuickPick(['public', 'secret'], {
-        placeHolder: 'Choose the gist visibility',
-      });
+      const gistVisibility = await vscode.window.showQuickPick(
+        ["public", "secret"],
+        {
+          placeHolder: "Choose the gist visibility",
+        }
+      );
 
       if (!gistVisibility) {
         vscode.window.showErrorMessage("Please select a gist visibility");
@@ -65,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
           "https://api.github.com/gists",
           {
             files: Object.assign({}, ...gists),
-            public: gistVisibility === 'public',
+            public: gistVisibility === "public",
           },
           {
             headers: {
