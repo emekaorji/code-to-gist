@@ -30,6 +30,15 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
+      const gistVisibility = await vscode.window.showQuickPick(['public', 'secret'], {
+        placeHolder: 'Choose the gist visibility',
+      });
+
+      if (!gistVisibility) {
+        vscode.window.showErrorMessage("Please select a gist visibility");
+        return;
+      }
+
       const gists: any[] = [];
       for (const fileUri of filesToUpload) {
         const fileName = fileUri.path.split("/").pop() || "";
@@ -56,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
           "https://api.github.com/gists",
           {
             files: Object.assign({}, ...gists),
-            public: true,
+            public: gistVisibility === 'public',
           },
           {
             headers: {
