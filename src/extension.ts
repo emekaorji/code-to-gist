@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
         placeHolder: "Enter your GitHub PAT",
         password: true,
         prompt:
-          "Your GitHub Personal Access Token is required to create a Gists",
+          "Your GitHub Personal Access Token is required to create a Gist",
       });
 
       if (!token) {
@@ -66,9 +66,17 @@ export function activate(context: vscode.ExtensionContext) {
         );
 
         if (response.status === 201) {
-          vscode.window.showInformationMessage(
-            `Gist Created: ${response.data.html_url}`
+          const gistUrl = response.data.html_url;
+          const openGistButton = "Go to Gist";
+
+          const selectedButton = await vscode.window.showInformationMessage(
+            `Gist Created: ${gistUrl}`,
+            openGistButton
           );
+
+          if (selectedButton === openGistButton) {
+            vscode.env.openExternal(vscode.Uri.parse(gistUrl));
+          }
         } else {
           throw new Error(
             `GitHub API responded with status code ${response.status}`
