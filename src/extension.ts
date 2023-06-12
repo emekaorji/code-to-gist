@@ -116,6 +116,18 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(disposable);
+
+  let myStatusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left,
+    1
+  );
+  myStatusBarItem.command = "code-to-gist.createGist";
+  myStatusBarItem.text = `$(file-code) Create Gist`;
+  myStatusBarItem.tooltip = "Create Gist";
+
+  context.subscriptions.push(myStatusBarItem);
+
+  myStatusBarItem.show();
 }
 
 export function deactivate() {}
