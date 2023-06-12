@@ -2,23 +2,20 @@ import * as vscode from "vscode";
 import axios from "axios";
 import * as fs from "fs";
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     "code-to-gist.createGist",
     async () => {
-      const token = await vscode.window.showInputBox({
-        placeHolder: "Enter your GitHub PAT",
-        password: true,
-        prompt:
-          "Your GitHub Personal Access Token is required to create a Gist",
-      });
-
-      if (!token) {
-        vscode.window.showErrorMessage(
-          "GitHub Personal Access Token is required"
-        );
+      const session = await vscode.authentication.getSession(
+        "github",
+        ["gist"],
+        { createIfNone: true }
+      );
+      if (!session) {
+        vscode.window.showErrorMessage("GitHub authentication failed");
         return;
       }
+      const token = session.accessToken;
 
       const filesToUpload = await vscode.window.showOpenDialog({
         canSelectMany: true,
@@ -27,6 +24,18 @@ export function activate(context: vscode.ExtensionContext) {
 
       if (!filesToUpload) {
         vscode.window.showErrorMessage("Please select a file");
+        return;
+      }
+
+      const gistVisibility = await vscode.window.showQuickPick(
+        ["public", "secret"],
+        {
+          placeHolder: "Choose the gist visibility",
+        }
+      );
+
+      if (!gistVisibility) {
+        vscode.window.showErrorMessage("Please select a gist visibility");
         return;
       }
 
@@ -56,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
           "https://api.github.com/gists",
           {
             files: Object.assign({}, ...gists),
-            public: true,
+            public: gistVisibility === "public",
           },
           {
             headers: {
@@ -107,6 +116,18 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(disposable);
+
+  let myStatusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left,
+    1
+  );
+  myStatusBarItem.command = "code-to-gist.createGist";
+  myStatusBarItem.text = `$(file-code) Create Gist`;
+  myStatusBarItem.tooltip = "Create Gist";
+
+  context.subscriptions.push(myStatusBarItem);
+
+  myStatusBarItem.show();
 }
 
 export function deactivate() {}

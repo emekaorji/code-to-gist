@@ -5,7 +5,7 @@
   "author": {
     "name": "Shodipo Ayomide"
   },
-  "version": "0.1.2",
+  "version": "0.1.9",
   "icon": "./assets/logo.jpeg",
   "publisher": "developerayo",
   "maintainers": [
@@ -28,6 +28,7 @@
     "Extension Packs"
   ],
   "activationEvents": [
+    "onAuthentication:github",
     "onCommand:code-to-gist.createGist"
   ],
   "main": "./out/extension.js",
