@@ -1,11 +1,11 @@
 {
-  "name": "code-to-gist",
-  "displayName": "code-to-gist",
+  "name": "Code-to-gist",
+  "displayName": "Code-to-gist",
   "description": "This VSCode extension facilitates seamless posting of code files from your local VSCode environment to GitHub's Gist service, enabling convenient collaboration.",
   "author": {
     "name": "Shodipo Ayomide"
   },
-  "version": "0.0.8",
+  "version": "0.0.9",
   "icon": "./assets/logo.jpeg",
   "publisher": "developerayo",
   "maintainers": [
