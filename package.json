@@ -4,7 +4,7 @@
   "description": "This VSCode extension facilitates seamless posting of code files from your local VSCode environment to GitHub's Gist service, enabling convenient collaboration.",
   "author": "Shodipo Ayomide",
   "version": "0.0.6",
-  "icon": "https://i.ibb.co/gytgdGg/Code-To-Gist-logos.jpg",
+  "icon": "src/assets/logo.jpeg",
   "publisher": "developerayo",
   "engines": {
     "vscode": "^1.69.1"
