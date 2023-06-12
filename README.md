@@ -1,71 +1,47 @@
-# code-to-gist README
+![Code-to-Gist Logo](https://i.ibb.co/JzGq3YD/Code-To-Gist-logos-copy.jpg)
 
-This is the README for your extension "code-to-gist". After writing up a brief description, we recommend including the following sections.
+## Code-to-Gist 🤖 🛠️
 
-## Features
+This extension allows you to conveniently create and share GitHub Gists from your code files directly within the editor. Gists are a way to share snippets or larger portions of code with others, either as a public or secret gist, making it easy to collaborate or showcase your work.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Features
+- Create GitHub Gists: Create Gists by posting code files from your local VS Code environment to GitHub's Gist service.
 
-For example if there is an image subfolder under your extension project workspace:
+- GitHub PAT: To authenticate with GitHub and create Gists, you'll need to provide a GitHub PAT (Personal Access Token), ensuring secure and authorized access, you can get that via your GitHub profile settings.
 
-\!\[feature X\]\(images/feature-x.png\)
+- File Selection: Choose specific code files to include in the Gist by selecting them through the file picker within the VS Code interface.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Public or Private Gists: You can decide whether your Gist should be public or private, allowing you to control who can access and view your code snippets for safer collaboration.
 
-## Requirements
+### Installation
+1. Launch Visual Studio Code.
+2. Go to the Extensions view by clicking on the square icon on the left sidebar or by using the shortcut `Ctrl+Shift+X`.
+3. Search for "Code-to-Gist" in the Extensions marketplace.
+4. Click the "Install" button next to the "Code-to-Gist" extension.
+5. Once installed, you can find the extension in the Extensions sidebar.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### Usage
+1. Open a code file or workspace in Visual Studio Code.
+2. Click on the Command Palette by using the shortcut `Ctrl+Shift+P` or by navigating to the "View" menu and selecting "Command Palette".
+3. In the Command Palette, search for "Code-To-Gist: Create GitHub Gist from VSCode" and select the command.
+4. A prompt will appear asking for your GitHub PAT. Enter your Personal Access Token and press Enter.
+   - If you don't have a GitHub PAT.
+5. After providing the PAT, a file picker modal will open-up, allowing you to select the code files to include in the Gist.
+6. Choose the desired files and confirm your selection.
+7. Select whether the Gist should be public or private.
+8. The extension will handle the creation of the Gist and display a success message with the URL of the created Gist at the bottom right corner of your code editor.
+9. In case of any errors or issues, appropriate error messages will be displayed, indicating the problem encountered, read the **#Troubleshooting** section of this page and try to fix based on the error message if the error persist please reach out to me via Twitter DM (@developerayo).
 
-## Extension Settings
+### Extension Deactivation
+The extension is deactivated automatically when you close Visual Studio Code or manually disable the extension in the Extensions view.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Troubleshooting
+- **Error: "GitHub Personal Access Token is required"**: Ensure that you provide a valid GitHub Personal Access Token. Without it, the extension cannot authenticate and create Gists.
+- **Error: "Please select a file"**: Make sure you select at least one code file to include in the Gist using the file picker modal.
+- **Error: "Rate limit exceeded. Please try again later."**: GitHub imposes rate limits on API requests. If you encounter this error, wait for some time before creating a new Gist.
+- **Error: "Invalid GitHub PAT. Please check your token."**: Verify that the provided GitHub Personal Access Token is correct and has the necessary permissions to create Gist.
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### Feedback and Contributions
+If you have any feedback, suggestions, or bug reports, please reach out to me on Twitter (@developerayo)
 
 **Enjoy!**

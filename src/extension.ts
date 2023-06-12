@@ -7,12 +7,14 @@ export function activate(context: vscode.ExtensionContext) {
     "code-to-gist.createGist",
     async () => {
       const token = await vscode.window.showInputBox({
-        prompt: "Token",
+        placeHolder: "Enter your GitHub PAT",
+        password: true,
+        prompt: "Your GitHub Personal Access Token is required to create a Gists",
       });
 
       if (!token) {
         vscode.window.showErrorMessage(
-          "Token"
+          "GitHub Personal Access Token is required"
         );
         return;
       }
@@ -27,7 +29,8 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
-      const gists = filesToUpload.map(async (fileUri) => {
+      const gists: any[] = [];
+      for (const fileUri of filesToUpload) {
         const fileName = fileUri.path.split("/").pop() || "";
 
         let fileContent;
@@ -40,17 +43,18 @@ export function activate(context: vscode.ExtensionContext) {
           throw e;
         }
 
-        return {
-          filename: fileName,
-          content: fileContent,
-        };
-      });
+        gists.push({
+          [fileName]: {
+            content: fileContent,
+          },
+        });
+      }
 
       try {
         const response = await axios.post(
           "https://api.github.com/gists",
           {
-            files: gists,
+            files: Object.assign({}, ...gists),
             public: true,
           },
           {
@@ -70,7 +74,25 @@ export function activate(context: vscode.ExtensionContext) {
           );
         }
       } catch (e) {
-        vscode.window.showErrorMessage(`Failed to create a gist: ${e.message}`);
+        if (axios.isAxiosError(e)) {
+          if (e.response?.status === 403) {
+            vscode.window.showErrorMessage(
+              "Rate limit exceeded. Please try again later."
+            );
+          } else if (e.response?.status === 401) {
+            vscode.window.showErrorMessage(
+              "Invalid GitHub PAT. Please check your token."
+            );
+          } else {
+            vscode.window.showErrorMessage(
+              `Failed to create a gist: ${e.message}`
+            );
+          }
+        } else {
+          vscode.window.showErrorMessage(
+            "An unexpected error occurred while creating a gist"
+          );
+        }
       }
     }
   );
