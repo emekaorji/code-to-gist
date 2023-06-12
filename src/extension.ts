@@ -9,7 +9,8 @@ export function activate(context: vscode.ExtensionContext) {
       const token = await vscode.window.showInputBox({
         placeHolder: "Enter your GitHub PAT",
         password: true,
-        prompt: "Your GitHub Personal Access Token is required to create a Gists",
+        prompt:
+          "Your GitHub Personal Access Token is required to create a Gists",
       });
 
       if (!token) {

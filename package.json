@@ -2,20 +2,34 @@
   "name": "code-to-gist",
   "displayName": "code-to-gist",
   "description": "This VSCode extension facilitates seamless posting of code files from your local VSCode environment to GitHub's Gist service, enabling convenient collaboration.",
-  "author": "Shodipo Ayomide",
+  "author": {
+    "name": "Shodipo Ayomide"
+  },
   "version": "0.0.6",
-  "icon": "src/assets/logo.jpeg",
+  "icon": "./src/assets/logo.png",
   "publisher": "developerayo",
+  "maintainers": [
+    "Shodipo Ayomide <shodipovi@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Developerayo/code-to-gist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Developerayo/code-to-gist.git/issues"
+  },
+  "keywords": [
+    "code-to-gist, GitHub, vscode, gist"
+  ],
   "engines": {
     "vscode": "^1.69.1"
   },
   "categories": [
-    "Other"
+    "Extension Packs"
   ],
   "activationEvents": [
     "onCommand:code-to-gist.createGist"
-],
-
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -45,7 +59,7 @@
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
     "typescript": "^5.1.3"
-},
+  },
   "dependencies": {
     "@types/vscode": "^1.69.1",
     "axios": "^1.4.0"
