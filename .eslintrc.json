@@ -11,6 +11,14 @@
     "rules": {
         "@typescript-eslint/naming-convention": "warn",
         "@typescript-eslint/semi": "warn",
+        "@typescript-eslint/quotes": [
+            "warn",
+            "double",
+            {
+              "avoidEscape": true,
+              "allowTemplateLiterals": true
+            }
+          ],
         "curly": "warn",
         "eqeqeq": "warn",
         "no-throw-literal": "warn",
