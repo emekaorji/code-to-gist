@@ -3,16 +3,24 @@ import axios from "axios";
 import * as fs from "fs";
 import * as path from "path";
 
+const GITHUB_API_URL = "https://api.github.com/gists";
+const GITHUB_AUTH_SCHEME = "github";
+const GITHUB_AUTH_SCOPES = ["gist"];
+const COMMAND_CREATE_GIST_ACTIVE_EDITOR = "code-to-gist.createGistFromActiveEditor";
+const COMMAND_CREATE_GIST_EXPLORER = "code-to-gist.createGistFromExplorer";
+const COMMAND_CREATE_GIST_FILE_PICKER = "code-to-gist.createGistFromFilePicker";
+const COMMAND_CREATE_GIST_SELECTION = "code-to-gist.createGistFromSelection";
+
 interface Gist {
   [key: string]: { content: string };
 }
 
 const getSessionToken = async () => {
-  const session = await vscode.authentication.getSession("github", ["gist"], {
+  const session = await vscode.authentication.getSession(GITHUB_AUTH_SCHEME, GITHUB_AUTH_SCOPES, {
     createIfNone: true,
   });
   if (!session) {
-    throw new Error("GitHub authentication failed");
+    throw new Error("Failed to authenticate with GitHub. Please check your credentials.");
   }
 
   return session.accessToken;
@@ -26,7 +34,7 @@ const getGistVisibility = async () => {
     }
   );
   if (!gistVisibility) {
-    throw new Error("Please select a gist visibility");
+    throw new Error("Gist visibility selection was cancelled or invalid.");
   }
 
   return gistVisibility === "public";
@@ -96,7 +104,7 @@ const uploadGistAndHandleErrors = async (
 ) => {
   try {
     const response = await axios.post(
-      "https://api.github.com/gists",
+      GITHUB_API_URL,
       {
         files: Object.assign({}, ...gists),
         public: isPublic,
@@ -244,19 +252,19 @@ const createGistFromSelection = async () => {
 
 export async function activate(context: vscode.ExtensionContext) {
   const createGistFromActiveEditorDisposable = vscode.commands.registerCommand(
-    "code-to-gist.createGistFromActiveEditor",
+    COMMAND_CREATE_GIST_ACTIVE_EDITOR,
     createGistFromActiveEditor
   );
   const createGistFromExplorerDisposable = vscode.commands.registerCommand(
-    "code-to-gist.createGistFromExplorer",
+    COMMAND_CREATE_GIST_EXPLORER,
     createGistFromExplorer
   );
   const createGistFromFilePickerDisposable = vscode.commands.registerCommand(
-    "code-to-gist.createGistFromFilePicker",
+    COMMAND_CREATE_GIST_FILE_PICKER,
     createGistFromFilePicker
   );
   const createGistFromSelectionDisposable = vscode.commands.registerCommand(
-    "code-to-gist.createGistFromSelection",
+    COMMAND_CREATE_GIST_SELECTION,
     createGistFromSelection
   );
 
